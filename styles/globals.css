@@ -1,25 +1,8 @@
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -32,5 +15,39 @@ a {
 }
 
 .resource-form {
-  margin-top: 0;
+  margin-top: 100px;
+}
+
+.active-resource {
+  background-color: #3140aa;
+  padding: 50px;
+  text-align: center;
+  color: white;
+  height: 300px;
+}
+
+.active-resource .resource-name {
+  font-size: 30px;
+  height: 50px;
+}
+
+.active-resource .elapsed-time {
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.active-resource .time-wrapper {
+  height: 100px;
+}
+
+.tag.resource-complete {
+  background-color: #0fd60f;
+}
+
+.tag.resource-inactive {
+  background-color: orange;
+}
+
+.tag.resource-active {
+  background-color: #2d8bff;
 }

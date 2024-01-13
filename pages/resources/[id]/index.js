@@ -1,82 +1,69 @@
+import Layout from "components/Layout";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import ResourceLabel from "components/ResourceLabel";
 import moment from "moment";
 
-const ActiveResource = () => {
-  const [resource, setResource] = useState({});
-  const [seconds, setSeconds] = useState();
-
-  useEffect(() => {
-    async function fetchResource() {
-      const axiosRes = await axios.get("/api/activeresource");
-      const resource = axiosRes.data;
-      const timeToFinish = parseInt(resource.timeToFinish, 10);
-      const elapsedTime = moment().diff(
-        moment(resource.activationTime),
-        "seconds"
-      );
-      const updatedTimeToFinish = timeToFinish * 60 - elapsedTime;
-
-      if (updatedTimeToFinish >= 0) {
-        resource.timeToFinish = updatedTimeToFinish;
-        setSeconds(updatedTimeToFinish);
-      }
-
-      setResource(resource);
-    }
-
-    fetchResource();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds - 1);
-    }, 1000);
-
-    if (seconds < 0) {
-      clearInterval(interval);
-    }
-
-    return () => clearInterval(interval);
-  }, [seconds]);
-
-  const completeResource = () => {
+const ResourceDetail = ({ resource }) => {
+  const activeResource = () => {
     axios
-      .patch("/api/resources", { ...resource, status: "complete" })
+      .patch("/api/resources", { ...resource, status: "active" })
       .then((_) => location.reload())
-      .catch((_) => alert("Cannot complete the resource!"));
+      .catch((_) => alert("Cannot active the resource!"));
   };
 
-  const hasResource = resource && resource.id;
   return (
-    <div className="active-resource">
-      <h1 className="resource-name">
-        {hasResource ? resource.title : "No Resource Active"}
-      </h1>
-      <div className="time-wrapper">
-        {hasResource &&
-          (seconds > 0 ? (
-            <h2 className="elapsed-time">{seconds}</h2>
-          ) : (
-            <h2 className="elapsed-time">
-              <button onClick={completeResource} className="button is-success">
-                Click and Done!
-              </button>
-            </h2>
-          ))}
-      </div>
-      {hasResource ? (
-        <Link href={`/resources/${resource.id}`}>
-          <a className="button">Go to resource</a>
-        </Link>
-      ) : (
-        <Link href="/">
-          <a className="button">Go to resources</a>
-        </Link>
-      )}
-    </div>
+    <Layout>
+      <section className="hero ">
+        <div className="hero-body">
+          <div className="container">
+            <section className="section">
+              <div className="columns">
+                <div className="column is-8 is-offset-2">
+                  <div className="content is-medium">
+                    <h2 className="subtitle is-4">
+                      {moment(resource.createdAt).format("LLL")}
+                      <ResourceLabel status={resource.status} />
+                    </h2>
+                    <h1 className="title">{resource.title}</h1>
+                    <p>{resource.description}</p>
+                    <p>Time to finish: {resource.timeToFinish} min</p>
+                    {resource.status === "inactive" && (
+                      <>
+                        <Link href={`/resources/${resource.id}/edit`}>
+                          <a className="button is-warning">Update</a>
+                        </Link>
+                        <button
+                          onClick={activeResource}
+                          className="button is-success ml-1"
+                        >
+                          Activate
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </Layout>
   );
 };
 
-export default ActiveResource;
+export async function getServerSideProps({ params }) {
+  // const url = "http://localhost:30001/api/resources";
+
+  const dataRes = await fetch(`${process.env.API_URL}/resources/${params.id}`);
+  // const dataRes = await fetch((url += `${params.id}`));
+  const data = await dataRes.json();
+
+  return {
+    props: {
+      resource: data,
+    },
+  };
+}
+
+export default ResourceDetail;
