@@ -67,12 +67,12 @@ const ActiveResource = () => {
           ))}
       </div>
       {hasResource ? (
-        <Link href={`/resources/${resource.id}`}>
-          <a className="button">Go to resource</a>
+        <Link href={`/resources/${resource.id}`} className="button">
+          Go to resource
         </Link>
       ) : (
-        <Link href="/">
-          <a className="button">Go to resources</a>
+        <Link href="/" className="button">
+          Go to resources
         </Link>
       )}
     </div>

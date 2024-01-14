@@ -5,10 +5,10 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <div className="navbar-brand">
-          <Link href="/">
-            <a className="navbar-item">
-              <h1>Content Manager</h1>
-            </a>
+          <Link href="/" className="navbar-item">
+
+            <h1>Content Manager</h1>
+
           </Link>
           <span className="navbar-burger burger" data-target="navbarMenu">
             <span></span>
@@ -30,15 +30,19 @@ const Navbar = () => {
                 </span>
               </div>
             </div>
-            <Link href="/">
-              <a className="navbar-item is-active is-size-5 has-text-weight-semibold">
+            <Link
+              href="/"
+              className="navbar-item is-active is-size-5 has-text-weight-semibold">
+              
                 Home
-              </a>
+              
             </Link>
-            <Link href="/resources/new">
-              <a className="navbar-item is-size-5 has-text-weight-semibold">
+            <Link
+              href="/resources/new"
+              className="navbar-item is-size-5 has-text-weight-semibold">
+              
                 Add
-              </a>
+              
             </Link>
             <a className="navbar-item is-size-5 has-text-weight-semibold">
               Features

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async function (req, res) {
   if (req.method === "GET") {
     const dataRes = await fetch(`${process.env.API_URL}/resources`);

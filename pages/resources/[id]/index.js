@@ -30,8 +30,8 @@ const ResourceDetail = ({ resource }) => {
                     <p>Time to finish: {resource.timeToFinish} min</p>
                     {resource.status === "inactive" && (
                       <>
-                        <Link href={`/resources/${resource.id}/edit`}>
-                          <a className="button is-warning">Update</a>
+                        <Link href={`/resources/${resource.id}/edit`} className="button is-warning">
+                          Update
                         </Link>
                         <button
                           onClick={activeResource}
